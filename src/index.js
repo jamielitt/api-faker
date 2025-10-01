@@ -1,7 +1,7 @@
 const express = require('express');
 
-const putResource = require('./resourcehandling/putresource');
-const getResource = require('./resourcehandling/getresource');
+const handleGET = require('./handlers/handleGET');
+const handlePUT = require('./handlers/handlePUT');
 
 const app = express()
 const port = 3000
@@ -15,23 +15,12 @@ app.get('/hello', (req, res) => {
 })
 
 app.use((req, res, next) => {
-    if (req.method === 'PUT') {
-        let body = JSON.stringify(req.body);
-        putResource(req.originalUrl, body, store);
-        res.end(body);
-    }
-    else {
-        console.log('Standard GET/POST request for: ' + req.originalUrl);
-        const resource = getResource(req.originalUrl, store); 
-        if (resource != undefined) {         
-          res.header['Content-Type'] = 'application/json';
-          res.write(resource);
-        }
-        else {
-          res.statusCode = '404';
-        }
-        res.end();
-    }
+  if (req.method === 'PUT') {
+    handlePUT(req, res, store);
+  }
+  else {
+    handleGET(req, res, store);
+  }
 })
 
 app.listen(port, () => {
