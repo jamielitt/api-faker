@@ -10,3 +10,10 @@ curl -X PUT -H 'Content-Type: application/json' http://localhost:3000/frefre3 -d
 
 ## Example of getting back what you just put in
 curl http://localhost:3000/frefre
+
+## Running in Docker
+
+Ensure that Docker is installed and configured correctly.
+
+`docker compose up --build` will create the initial build
+`docker compose up` on subsequent builds to run
